@@ -18,12 +18,12 @@ $cwsSession->setDbTableName('sessions');                // the database table na
 
 // the informations to connect to the database.
 $cwsSession->setDbInfos(
-    'localhost',            // database host can be either a host name or an IP address.
-    'cws_session',          // database to be used when performing queries.
-    'root',                 // database user name.
-    '',                     // database password.
-    null,                   // database port. Leave empty if your are not sure.
-    CWSSESSION_DBEXT_PDO    // PDO driver to use (if you choose the CWSSESSION_DBEXT_PDO database extension). Default CWSSESSION_DBDRIVER_MYSQL.
+    'localhost',              // database host can be either a host name or an IP address.
+    'cws_session',            // database to be used when performing queries.
+    'root',                   // database user name.
+    '',                       // database password.
+    null,                     // database port. Leave empty if your are not sure.
+    CWSSESSION_DBDRIVER_MYSQL // PDO driver to use (if you choose the CWSSESSION_DBEXT_PDO database extension). Default CWSSESSION_DBDRIVER_MYSQL.
 );
 
 // Start!
