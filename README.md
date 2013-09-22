@@ -1,6 +1,6 @@
 # CwsSession
 
-CwsSession is a PHP class to manipulate sessions.
+CwsSession is a PHP class to manipulate sessions.<br />
 Data are securely encrypted and sessions are stored in database. 
 
 ## Requirements and installation
@@ -13,7 +13,7 @@ Data are securely encrypted and sessions are stored in database.
 
 ## Getting started
 
-Add a new table in your database with the following structure.
+Add a new table in your database with the following structure.<br />
 You can change the name of the table (sessions) but not the columns.
 
 ```sql
@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-**id** - the session id.
-**id_user** - the user id from your application. If you want to use it, use CWSSESSION_VAR_ID_USER as $_SESSION key.
-**expire** - the session cache expire.
-**data** - the session data.
-**skey** - unique key for data encryption.
+**id** - the session id.<br />
+**id_user** - the user id from your application. If you want to use it, use CWSSESSION_VAR_ID_USER as $_SESSION key.<br />
+**expire** - the session cache expire.<br />
+**data** - the session data.<br />
+**skey** - unique key for data encryption.<br />
 
 PHP example :
 
