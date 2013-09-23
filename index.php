@@ -22,6 +22,7 @@ $cwsSession->setDbInfos(
     'root',                   // database user name.
     '',                       // database password.
     null,                     // database port. Leave empty if your are not sure.
+    null,                     // database charset to use. Leave empty if your are not sure.
     CWSSESSION_DBDRIVER_MYSQL // PDO driver to use (if you choose the CWSSESSION_DBEXT_PDO database extension). Default CWSSESSION_DBDRIVER_MYSQL.
 );
 

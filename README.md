@@ -6,7 +6,7 @@ Data are securely encrypted and sessions are stored in database.
 ## Requirements and installation
 
 * PHP version >= 5.1.5
-* A SQL database.
+* A database.
 * Download and copy the [CwsCrypto](https://github.com/crazy-max/CwsCrypto) PHP class.
 * Copy the ``class.cws.session.php`` file in a folder on your server.
 * You can use the ``index.php`` file sample to help you.
@@ -38,11 +38,10 @@ PHP example :
 ```php
 <?php
 
-require_once 'class.cws.session.php';
-
 // Download CwsCrypto at https://github.com/crazy-max/CwsCrypto
 require_once 'class.cws.crypto.php';
 
+require_once 'class.cws.session.php';
 $cwsSession = new CwsSession();
 $cwsSession->setDebugVerbose(CWSSESSION_VERBOSE_DEBUG); // default CWSSESSION_VERBOSE_QUIET
 $cwsSession->setDebugOutputMode(CWSSESSION_DEBUG_ECHO); // default CWSSESSION_DEBUG_ECHO
@@ -61,6 +60,7 @@ $cwsSession->setDbInfos(
     'root',                   // database user name.
     '',                       // database password.
     null,                     // database port. Leave empty if your are not sure.
+    null,                     // database charset to use. Leave empty if your are not sure.
     CWSSESSION_DBDRIVER_MYSQL // PDO driver to use (if you choose the CWSSESSION_DBEXT_PDO database extension). Default CWSSESSION_DBDRIVER_MYSQL.
 );
 
@@ -89,7 +89,9 @@ SELECT (SELECT COUNT(*) FROM `sessions` WHERE `id_user` > 0 LIMIT 1) AS nb_conne
 
 ## Example
 
-TODO
+An example is available in ``index.php`` file :
+
+![](http://static.crazyws.fr/resources/blog/2013/09/cwssession-debug.png)
 
 ## Methods
 
@@ -129,4 +131,4 @@ LGPL. See ``LICENSE`` for more details.
 
 ## More infos
 
-TODO
+http://www.crazyws.fr/dev/classes-php/cwssession-proteger-les-sessions-php-et-les-stocker-en-base-de-donnees-7VB7X.html

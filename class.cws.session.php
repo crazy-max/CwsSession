@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see http://www.gnu.org/licenses/.
  * 
- * Related post : TODO
+ * Related post : http://goo.gl/YyNSJz
  * 
  * @package CwsSession
  * @author Cr@zy
@@ -231,6 +231,9 @@ class CwsSession
             $this->errorMsg = 'CwsCrypto is required... You can download it <a target="_blank" href="https://github.com/crazy-max/CwsCrypto">here</a>';
             $this->output();
             return;
+        } else {
+            global $cwsCrypto;
+            $cwsCrypto = new CwsCrypto();
         }
         
         if (empty($this->cookieDomain)) {
@@ -258,8 +261,6 @@ class CwsSession
         } else {
             $this->debugFilePath = realpath($this->debugFilePath);
         }
-        
-        $cwsCrypto = new CwsCrypto();
         
         if ($this->dbConnect()) {
             session_name($this->sessionName);
@@ -909,14 +910,12 @@ class CwsSession
      */
     private function retrieveKey($id)
     {
-        global $cwsCrypto;
-        
         $key = $this->dbSelectSingle(CWSSESSION_DBCOL_KEY, $id);
         if (!empty($key)) {
             $this->output('<strong>Key retrieved from database :</strong> ' . htmlentities($key), CWSSESSION_VERBOSE_SIMPLE);
             return $key;
         } else {
-            $key = $cwsCrypto->random(56);
+            $key = CwsCrypto::random(56);
             $this->output('<strong>Generated random key :</strong> ' . htmlentities($key), CWSSESSION_VERBOSE_SIMPLE);
             return $key;
         }
