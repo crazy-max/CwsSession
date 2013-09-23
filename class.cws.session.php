@@ -2,6 +2,9 @@
 
 /**
  * CwsSession
+ * 
+ * CwsSession is a PHP class to manipulate sessions.
+ * Data are securely encrypted and sessions are stored in database.
  *
  * CwsSession is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +25,7 @@
  * @author Cr@zy
  * @copyright 2013, Cr@zy
  * @license GNU LESSER GENERAL PUBLIC LICENSE
- * @version 1.0
+ * @version 1.1
  *
  */
 
@@ -78,7 +81,7 @@ class CwsSession
      * CwsSession version.
      * @var string
      */
-    private $version = "1.0";
+    private $version = "1.1";
     
     /**
      * Control the debug output.
@@ -225,7 +228,7 @@ class CwsSession
     public function process()
     {
         if (!class_exists('CwsCrypto')) {
-            $this->errorMsg = 'CWsCrypto is required...';
+            $this->errorMsg = 'CwsCrypto is required... You can download it <a target="_blank" href="https://github.com/crazy-max/CwsCrypto">here</a>';
             $this->output();
             return;
         }

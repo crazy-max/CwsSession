@@ -1,10 +1,9 @@
 <?php
 
-require_once 'class.cws.session.php';
-
 // Download CwsCrypto at https://github.com/crazy-max/CwsCrypto
 require_once 'class.cws.crypto.php';
 
+require_once 'class.cws.session.php';
 $cwsSession = new CwsSession();
 $cwsSession->setDebugVerbose(CWSSESSION_VERBOSE_DEBUG); // default CWSSESSION_VERBOSE_QUIET
 $cwsSession->setDebugOutputMode(CWSSESSION_DEBUG_ECHO); // default CWSSESSION_DEBUG_ECHO
