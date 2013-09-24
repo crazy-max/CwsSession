@@ -25,7 +25,7 @@
  * @author Cr@zy
  * @copyright 2013, Cr@zy
  * @license GNU LESSER GENERAL PUBLIC LICENSE
- * @version 1.1
+ * @version 1.2
  *
  */
 
@@ -81,7 +81,7 @@ class CwsSession
      * CwsSession version.
      * @var string
      */
-    private $version = "1.1";
+    private $version = '1.2';
     
     /**
      * Control the debug output.
@@ -980,7 +980,6 @@ class CwsSession
      */
     private function output($msg=false, $verbose_level=CWSSESSION_VERBOSE_SIMPLE, $newline=true, $code=false)
     {
-        global $static;
         if ($this->debugOutputMode == CWSSESSION_DEBUG_ECHO) {
             $this->outputEcho($msg, $verbose_level, $newline, $code);
         } elseif (!empty($this->debugFilePath)) {
