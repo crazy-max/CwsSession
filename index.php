@@ -1,19 +1,25 @@
 <?php
 
+// Download CwsDump at https://github.com/crazy-max/CwsDump
+require_once 'class.cws.dump.php';
+
+// Download CwsDebug at https://github.com/crazy-max/CwsDebug
+require_once 'class.cws.debug.php';
+
 // Download CwsCrypto at https://github.com/crazy-max/CwsCrypto
 require_once 'class.cws.crypto.php';
 
 require_once 'class.cws.session.php';
 $cwsSession = new CwsSession();
-$cwsSession->setDebugVerbose(CWSSESSION_VERBOSE_DEBUG); // default CWSSESSION_VERBOSE_QUIET
-$cwsSession->setDebugOutputMode(CWSSESSION_DEBUG_ECHO); // default CWSSESSION_DEBUG_ECHO
-$cwsSession->setLifetime(1800);                         // in seconds (1800s = 30min)
-$cwsSession->setCookieDomain('.foo.com');               // your domain
-$cwsSession->setSessionName('whatuwant');               // default PHPSESSID
-$cwsSession->setFpEnable(true);                         // default true
-$cwsSession->setFpMode(CWSSESSION_FP_MODE_BASIC);       // default CWSSESSION_FP_MODE_BASIC (check user agent)
-$cwsSession->setDbExt(CWSSESSION_DBEXT_PDO);            // default CWSSESSION_DBEXT_PDO
-$cwsSession->setDbTableName('sessions');                // the database table name to store sessions (see README.md for structure).
+$cwsSession->setDebugVerbose(CWSDEBUG_VERBOSE_DEBUG); // CWSDEBUG_VERBOSE_QUIET, CWSDEBUG_VERBOSE_SIMPLE, CWSDEBUG_VERBOSE_REPORT or CWSDEBUG_VERBOSE_DEBUG
+$cwsSession->setDebugMode(CWSDEBUG_MODE_ECHO);        // CWSDEBUG_MODE_ECHO or CWSDEBUG_MODE_FILE
+$cwsSession->setLifetime(1800);                       // in seconds (1800s = 30min)
+$cwsSession->setCookieDomain('localhost');            // your domain
+$cwsSession->setSessionName('whatuwant');             // default PHPSESSID
+$cwsSession->setFpEnable(true);                       // default true
+$cwsSession->setFpMode(CWSSESSION_FP_MODE_BASIC);     // default CWSSESSION_FP_MODE_BASIC (check user agent)
+$cwsSession->setDbExt(CWSSESSION_DBEXT_PDO);          // default CWSSESSION_DBEXT_PDO
+$cwsSession->setDbTableName('sessions');              // the database table name to store sessions (see README.md for structure)
 
 // the informations to connect to the database.
 $cwsSession->setDbInfos(

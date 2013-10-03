@@ -7,7 +7,7 @@ Data are securely encrypted and sessions are stored in database.
 
 * PHP version >= 5.1.5
 * A database.
-* Download and copy the [CwsCrypto](https://github.com/crazy-max/CwsCrypto) PHP class.
+* Download and copy the [CwsDump](https://github.com/crazy-max/CwsDump), [CwsDebug](https://github.com/crazy-max/CwsDebug) and [CwsCrypto](https://github.com/crazy-max/CwsCrypto) and PHP class.
 * Copy the ``class.cws.session.php`` file in a folder on your server.
 * You can use the ``index.php`` file sample to help you.
 
