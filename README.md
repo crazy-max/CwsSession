@@ -7,7 +7,7 @@ Data are securely encrypted and sessions are stored in database.
 
 * PHP version >= 5.1.5
 * A database.
-* Download and copy the [CwsDump](https://github.com/crazy-max/CwsDump), [CwsDebug](https://github.com/crazy-max/CwsDebug) and [CwsCrypto](https://github.com/crazy-max/CwsCrypto) and PHP class.
+* Download and copy the [CwsDump](https://github.com/crazy-max/CwsDump), [CwsDebug](https://github.com/crazy-max/CwsDebug) and [CwsCrypto](https://github.com/crazy-max/CwsCrypto) PHP classes.
 * Copy the ``class.cws.session.php`` file in a folder on your server.
 * You can use the ``index.php`` file sample to help you.
 
@@ -91,7 +91,7 @@ SELECT (SELECT COUNT(*) FROM `sessions` WHERE `id_user` > 0 LIMIT 1) AS nb_conne
 
 An example is available in ``index.php`` file :
 
-![](http://static.crazyws.fr/resources/blog/2013/09/cwssession-debug.png)
+![](http://static.crazyws.fr/resources/blog/2013/10/cwssession-debug2.png)
 
 ## Methods
 
@@ -102,7 +102,8 @@ An example is available in ``index.php`` file :
 **isActive** - Check if the session is active or not.<br />
 **setDbInfos** - Set the informations to connect to the database (host, dbname, username, password, port, charset, pdoDriver).<br />
 
-**getVersion** - The CwsSession version.<br />
+**setDebugVerbose** - Set the debug verbose. (see CwsDebug class)<br />
+**setDebugMode** - Set the debug mode. (see CwsDebug class)<br />
 **getLifetime** - The session life time.<br />
 **setLifetime** - Set the session life time (in seconds).<br />
 **getCookieDomain** - The domain of the session cookie.<br />
@@ -117,12 +118,6 @@ An example is available in ``index.php`` file :
 **setDbExt** - Set the database PHP extension used to store sessions (default CWSSESSION_DBEXT_PDO).<br />
 **getDbTableName** - The database table name to store sessions.<br />
 **setDbTableName** - Set the database table name to store sessions (default CWSSESSION_DBEXT_PDO).<br />
-**getDebugVerbose** - The current debug verbose mode.<br />
-**setDebugVerbose** - Control the debug output.<br />
-**getDebugOutputMode** - The debug output mode.<br />
-**setDebugOutputMode** - Set the debug output mode (default CWSSESSION_DEBUG_ECHO).<br />
-**getDebugFilePath** - The debug file path.<br />
-**setDebugFilePath** - Set the debug file path (default ./session-log.html).<br />
 **getErrorMsg** - The last error message.
 
 ## License
