@@ -1,13 +1,13 @@
 <?php
 
 // Download CwsDump at https://github.com/crazy-max/CwsDump
-require_once 'class.cws.dump.php';
+require_once '../CwsDump/class.cws.dump.php';
 
 // Download CwsDebug at https://github.com/crazy-max/CwsDebug
-require_once 'class.cws.debug.php';
+require_once '../CwsDebug/class.cws.debug.php';
 
 // Download CwsCrypto at https://github.com/crazy-max/CwsCrypto
-require_once 'class.cws.crypto.php';
+require_once '../CwsCrypto/class.cws.crypto.php';
 
 require_once 'class.cws.session.php';
 $cwsSession = new CwsSession();

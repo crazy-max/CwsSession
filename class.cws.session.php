@@ -25,7 +25,7 @@
  * @author Cr@zy
  * @copyright 2013, Cr@zy
  * @license GNU LESSER GENERAL PUBLIC LICENSE
- * @version 1.3
+ * @version 1.4
  *
  */
 
@@ -89,10 +89,11 @@ class CwsSession
     private $debugFilePath = './cwssession-debug.html';
     
     /**
-     * The last error message.
-     * @var string
+     * Clear the file at the beginning. (see CwsDebug class)
+     * default true
+     * @var boolean
      */
-    private $errorMsg;
+    private $debugFileClear = false;
     
     /**
      * The session life time.
@@ -197,6 +198,12 @@ class CwsSession
      */
     private $dbTableName;
     
+    /**
+     * The last error.
+     * @var string
+     */
+    private $error;
+    
     public function __construct() {}
     
     /**
@@ -206,19 +213,19 @@ class CwsSession
     public function process()
     {
         if (!class_exists('CwsDebug')) {
-            $this->errorMsg = 'CwsDebug is required - https://github.com/crazy-max/CwsDebug';
-            echo $this->errorMsg;
+            $this->error = 'CwsDebug is required - https://github.com/crazy-max/CwsDebug';
+            echo $this->error;
             return;
         }
         
         global $cwsDebug;
-        $cwsDebug = new CwsDebug();
-        $cwsDebug->setVerbose($this->debugVerbose);
-        $cwsDebug->setMode($this->debugMode, $this->debugFilePath);
+    	$cwsDebug = new CwsDebug();
+    	$cwsDebug->setVerbose($this->debugVerbose);
+    	$cwsDebug->setMode($this->debugMode, $this->debugFilePath, $this->debugFileClear);
         
         if (!class_exists('CwsCrypto')) {
-            $this->errorMsg = 'CwsCrypto is required - https://github.com/crazy-max/CwsCrypto';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'CwsCrypto is required - https://github.com/crazy-max/CwsCrypto';
+            $cwsDebug->error($this->error);
             return;
         } else {
             global $cwsCrypto;
@@ -226,20 +233,20 @@ class CwsSession
         }
         
         if (empty($this->cookieDomain)) {
-            $this->errorMsg = 'Cookie domain empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Cookie domain empty...';
+            $cwsDebug->error($this->error);
             return;
         }
         
         if (empty($this->dbTableName)) {
-            $this->errorMsg = 'Database table name empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database table name empty...';
+            $cwsDebug->error($this->error);
             return;
         }
         
         if (empty($this->dbExt)) {
-            $this->errorMsg = 'Database extension empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database extension empty...';
+            $cwsDebug->error($this->error);
             return;
         }
         
@@ -564,19 +571,19 @@ class CwsSession
         
         $dbExts = array(CWSSESSION_DBEXT_MYSQL, CWSSESSION_DBEXT_MYSQLI, CWSSESSION_DBEXT_PDO);
         if (!in_array($this->dbExt, $dbExts)) {
-            $this->errorMsg = 'Database extension unknown... Selected : ' . $this->dbExt;
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database extension unknown... Selected : ' . $this->dbExt;
+            $cwsDebug->error($this->error);
         } elseif (empty($this->dbHost)) {
-            $this->errorMsg = 'Database host empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database host empty...';
+            $cwsDebug->error($this->error);
             return false;
         } elseif (empty($this->dbName)) {
-            $this->errorMsg = 'Database name empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database name empty...';
+            $cwsDebug->error($this->error);
             return false;
         } elseif (empty($this->dbUsername)) {
-            $this->errorMsg = 'Database username empty...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = 'Database username empty...';
+            $cwsDebug->error($this->error);
             return false;
         }
         
@@ -600,8 +607,8 @@ class CwsSession
         global $cwsDebug;
         
         if (!function_exists('mysql_connect')) {
-            $this->errorMsg = CWSSESSION_DBEXT_MYSQL . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_MYSQL . ' - Extension not loaded. Check your PHP configuration...';
+            $cwsDebug->error($this->error);
             return false;
         }
         
@@ -615,14 +622,14 @@ class CwsSession
         if ($selectDb) {
             if (!empty($this->dbCharset)) {
                 if (!$this->dbQuery("SET NAMES '" . $this->dbCharset . "'")) {
-                    $this->errorMsg = CWSSESSION_DBEXT_MYSQL . ' - Error loading character set ' . $this->dbCharset . ': ' . mysql_error($this->db);
-                    $cwsDebug->error($this->errorMsg);
+                    $this->error = CWSSESSION_DBEXT_MYSQL . ' - Error loading character set ' . $this->dbCharset . ': ' . mysql_error($this->db);
+                    $cwsDebug->error($this->error);
                     return false;
                 }
             }
         } else {
-            $this->errorMsg = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
+            $cwsDebug->error($this->error);
             return false;
         }
         
@@ -638,23 +645,23 @@ class CwsSession
         global $cwsDebug;
         
         if (!function_exists('mysqli_connect')) {
-            $this->errorMsg = CWSSESSION_DBEXT_MYSQLI . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_MYSQLI . ' - Extension not loaded. Check your PHP configuration...';
+            $cwsDebug->error($this->error);
             return false;
         }
         
         $this->db = mysqli_connect($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
         
         if (mysqli_connect_errno()) {
-            $this->errorMsg = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_connect_errno();
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_connect_errno();
+            $cwsDebug->error($this->error);
             return false;
         }
         
         if (!empty($this->dbCharset)) {
             if (!mysqli_set_charset($this->db, $this->dbCharset)) {
-                $this->errorMsg = CWSSESSION_DBEXT_MYSQLI . ' - Error loading character set ' . $this->dbCharset . ': ' . mysqli_error($this->db);
-                $cwsDebug->error($this->errorMsg);
+                $this->error = CWSSESSION_DBEXT_MYSQLI . ' - Error loading character set ' . $this->dbCharset . ': ' . mysqli_error($this->db);
+                $cwsDebug->error($this->error);
                 return false;
             }
         }
@@ -671,13 +678,13 @@ class CwsSession
         global $cwsDebug;
         
         if (!defined('PDO::ATTR_DRIVER_NAME')) {
-            $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_PDO . ' - Extension not loaded. Check your PHP configuration...';
+            $cwsDebug->error($this->error);
             return false;
         } elseif (!$this->isValidPdoDriver()) {
-            $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - The database you wish to connect to is not supported by your install of PHP. ';
-            $this->errorMsg .= 'Check your PDO driver (selected: ' . $this->dbPdoDriver . ')...';
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_PDO . ' - The database you wish to connect to is not supported by your install of PHP. ';
+            $this->error .= 'Check your PDO driver (selected: ' . $this->dbPdoDriver . ')...';
+            $cwsDebug->error($this->error);
             return false;
         }
         
@@ -707,12 +714,12 @@ class CwsSession
             $this->db = new PDO($dsn, $this->dbUsername, $this->dbPassword, $options);
             return true;
         } catch (PDOException $e) {
-            $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
+            $cwsDebug->error($this->error);
             return false;
         } catch(Exception $e) {
-            $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-            $cwsDebug->error($this->errorMsg);
+            $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
+            $cwsDebug->error($this->error);
             return false;
         }
     }
@@ -817,25 +824,25 @@ class CwsSession
         if ($this->dbExt == CWSSESSION_DBEXT_MYSQL) {
             $result = mysql_query($query, $this->db);
             if (!$result) {
-                $this->errorMsg = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
-                $cwsDebug->error($this->errorMsg);
+                $this->error = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
+                $cwsDebug->error($this->error);
             }
         } elseif ($this->dbExt == CWSSESSION_DBEXT_MYSQLI) {
             $result = mysqli_query($this->db, $query);
             if (!$result) {
-                $this->errorMsg = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_error($this->db);
-                $cwsDebug->error($this->errorMsg);
+                $this->error = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_error($this->db);
+                $cwsDebug->error($this->error);
             }
         } elseif ($this->dbExt == CWSSESSION_DBEXT_PDO) {
             try {
                 $this->stmt = $this->db->prepare($query);
                 $result = $this->stmt->execute();
             } catch (PDOException $e) {
-                $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-                $cwsDebug->error($this->errorMsg);
+                $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
+                $cwsDebug->error($this->error);
             } catch(Exception $e) {
-                $this->errorMsg = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-                $cwsDebug->error($this->errorMsg);
+                $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
+                $cwsDebug->error($this->error);
             }
         }
         
@@ -864,18 +871,18 @@ class CwsSession
         if ($this->fpEnable) {
             $fingerprint = $this->retrieveFingerprint();
             if (empty($fingerprint)) {
-                $this->errorMsg = 'Can\'t generate fingerprint...';
-                $cwsDebug->error($this->errorMsg);
+                $this->error = 'Can\'t generate fingerprint...';
+                $cwsDebug->error($this->error);
                 return false;
             }
             if (!isset($_SESSION[CWSSESSION_VAR_FINGERPRINT])) {
-                $this->errorMsg = 'Fingerprint not setted...';
-                $cwsDebug->error($this->errorMsg);
+                $this->error = 'Fingerprint not setted...';
+                $cwsDebug->error($this->error);
                 return false;
             }
             if ($fingerprint != $_SESSION[CWSSESSION_VAR_FINGERPRINT]) {
-                $this->errorMsg = 'Fingerprint error... Has <strong>' . $fingerprint . ' but expected <strong>' . $_SESSION[CWSSESSION_VAR_FINGERPRINT] . '</strong>';
-                $cwsDebug->error($this->errorMsg);
+                $this->error = 'Fingerprint error... Has <strong>' . $fingerprint . ' but expected <strong>' . $_SESSION[CWSSESSION_VAR_FINGERPRINT] . '</strong>';
+                $cwsDebug->error($this->error);
                 return false;
             }
             $cwsDebug->simple('Fingerprint OK : ' . $_SESSION[CWSSESSION_VAR_FINGERPRINT]);
@@ -982,20 +989,22 @@ class CwsSession
      */
     public function setDebugVerbose($debugVerbose)
     {
-        $this->debugVerbose = $debugVerbose;
+    	$this->debugVerbose = $debugVerbose;
     }
     
     /**
      * Set the debug mode. (see CwsDebug class)
      * @param int $debugMode - CWSDEBUG_MODE_ECHO or CWSDEBUG_MODE_FILE
-     * @param string $debugFilePath - The debug file path for CWSDEBUG_MODE_FILE. 
+     * @param string $debugFilePath - The debug file path for CWSDEBUG_MODE_FILE.
+     * @param boolean $debugFileClear - Clear the debug file at the beginning.
      */
-    public function setDebugMode($debugMode, $debugFilePath=null)
+    public function setDebugMode($debugMode, $debugFilePath=null, $debugFileClear=false)
     {
-        $this->debugMode = $debugMode;
-        if ($debugFilePath != null) {
-            $this->debugFilePath = $debugFilePath;
-        }
+    	$this->debugMode = $debugMode;
+    	if ($debugFilePath != null) {
+    		$this->debugFilePath = $debugFilePath;
+    		$this->debugFileClear = $debugFileClear;
+    	}
     }
 
 	/**
@@ -1125,11 +1134,10 @@ class CwsSession
     }
     
     /**
-     * The error msg.
-     * @return the $errorMsg
+     * The last error.
+     * @return the $error
      */
-    public function getErrorMsg()
-    {
-        return $this->errorMsg;
+    public function getError() {
+    	return $this->error;
     }
 }
