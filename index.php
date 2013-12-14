@@ -34,5 +34,3 @@ $cwsSession->setDbInfos(
 
 // Start!
 $cwsSession->process();
-
-?>

@@ -25,7 +25,7 @@
  * @author Cr@zy
  * @copyright 2013, Cr@zy
  * @license GNU LESSER GENERAL PUBLIC LICENSE
- * @version 1.4
+ * @version 1.5
  *
  */
 
@@ -204,7 +204,17 @@ class CwsSession
      */
     private $error;
     
-    public function __construct() {}
+    public function __construct()
+    {
+        if (!class_exists('CwsDebug')) {
+            $this->error = 'CwsDebug is required - https://github.com/crazy-max/CwsDebug';
+            echo $this->error;
+            return;
+        }
+         
+        global $cwsDebugSession;
+        $cwsDebugSession = new CwsDebug();
+    }
     
     /**
      * Start the process.
@@ -212,41 +222,32 @@ class CwsSession
      */
     public function process()
     {
-        if (!class_exists('CwsDebug')) {
-            $this->error = 'CwsDebug is required - https://github.com/crazy-max/CwsDebug';
-            echo $this->error;
-            return;
-        }
-        
-        global $cwsDebug;
-    	$cwsDebug = new CwsDebug();
-    	$cwsDebug->setVerbose($this->debugVerbose);
-    	$cwsDebug->setMode($this->debugMode, $this->debugFilePath, $this->debugFileClear);
-        
         if (!class_exists('CwsCrypto')) {
             $this->error = 'CwsCrypto is required - https://github.com/crazy-max/CwsCrypto';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return;
         } else {
-            global $cwsCrypto;
-            $cwsCrypto = new CwsCrypto();
+            global $cwsCryptoSession;
+            $cwsCryptoSession = new CwsCrypto();
+            $cwsCryptoSession->setDebugVerbose($this->debugVerbose);
+            $cwsCryptoSession->setDebugMode($this->debugMode, $this->debugFilePath, $this->debugFileClear);
         }
         
         if (empty($this->cookieDomain)) {
             $this->error = 'Cookie domain empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return;
         }
         
         if (empty($this->dbTableName)) {
             $this->error = 'Database table name empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return;
         }
         
         if (empty($this->dbExt)) {
             $this->error = 'Database extension empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return;
         }
         
@@ -278,8 +279,8 @@ class CwsSession
      */
     public function _open()
     {
-        global $cwsDebug;
-        $cwsDebug->titleH2('Open');
+        global $cwsDebugSession;
+        $cwsDebugSession->titleH2('Open');
         return true;
     }
     
@@ -290,8 +291,8 @@ class CwsSession
      */
     public function _close()
     {
-        global $cwsDebug;
-        $cwsDebug->titleH2('Close');
+        global $cwsDebugSession;
+        $cwsDebugSession->titleH2('Close');
         return true;
     }
     
@@ -303,20 +304,20 @@ class CwsSession
      */
     public function _read($id)
     {
-        global $cwsCrypto, $cwsDebug;
-        $cwsDebug->titleH2('Read');
-        $cwsDebug->labelValue('ID', $id);
+        global $cwsCryptoSession, $cwsDebugSession;
+        $cwsDebugSession->titleH2('Read');
+        $cwsDebugSession->labelValue('ID', $id);
         
         $encData = $this->dbSelectSingle(CWSSESSION_DBCOL_DATA, $id);
         if (!empty($encData)) {
             $key = $this->retrieveKey($id);
-            $data = $cwsCrypto->decrypt(base64_decode($encData), $key);
-            $cwsDebug->dump('Encrypted data', $encData);
-            $cwsDebug->dump('Decrypted data', $data);
+            $data = $cwsCryptoSession->decrypt(base64_decode($encData), $key);
+            $cwsDebugSession->dump('Encrypted data', $encData);
+            $cwsDebugSession->dump('Decrypted data', $data);
     
             if (!empty($data)) {
                 $exData = self::decode($data);
-                $cwsDebug->dump('Unserialized data', $exData);
+                $cwsDebugSession->dump('Unserialized data', $exData);
                 return $data;
             }
         }
@@ -334,8 +335,8 @@ class CwsSession
      */
     public function _write($id, $data)
     {
-        global $cwsCrypto, $cwsDebug;
-        $cwsDebug->titleH2('Write');
+        global $cwsCryptoSession, $cwsDebugSession;
+        $cwsDebugSession->titleH2('Write');
         
         $unsData = self::decode($data);
         $id_user = 0;
@@ -344,15 +345,15 @@ class CwsSession
         }
     
         $key = $this->retrieveKey($id);
-        $encData = base64_encode($cwsCrypto->encrypt($data, $key));
+        $encData = base64_encode($cwsCryptoSession->encrypt($data, $key));
         $expire = intval(time() + $this->lifetime);
     
-        $cwsDebug->labelValue('ID', $id);
-        $cwsDebug->labelValue('ID user', $id_user);
-        $cwsDebug->labelValue('Expire', $expire);
+        $cwsDebugSession->labelValue('ID', $id);
+        $cwsDebugSession->labelValue('ID user', $id_user);
+        $cwsDebugSession->labelValue('Expire', $expire);
         
-        $cwsDebug->dump('Data', $data);
-        $cwsDebug->dump('Encrypted data', $encData);
+        $cwsDebugSession->dump('Data', $data);
+        $cwsDebugSession->dump('Encrypted data', $encData);
         
         return $this->dbReplaceInto(array($id, $id_user, $expire, $encData, $key));
     }
@@ -364,9 +365,9 @@ class CwsSession
      */
     public function _destroy($id)
     {
-        global $cwsDebug;
-        $cwsDebug->titleH2('Destroy');
-        $cwsDebug->labelValue('ID', $id);
+        global $cwsDebugSession;
+        $cwsDebugSession->titleH2('Destroy');
+        $cwsDebugSession->labelValue('ID', $id);
         return $this->dbDelete(CWSSESSION_DBCOL_ID , '=', $id);
     }
     
@@ -376,9 +377,9 @@ class CwsSession
      */
     public function _gc()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
-        $cwsDebug->titleH2('Garbage collector');
+        $cwsDebugSession->titleH2('Garbage collector');
         $result = $this->dbDelete(CWSSESSION_DBCOL_EXPIRE , '<', time());
         
         if ($result) {
@@ -390,7 +391,7 @@ class CwsSession
             } elseif ($this->dbExt == CWSSESSION_DBEXT_PDO) {
                 $affected = $this->stmt->rowCount();
             }
-            $cwsDebug->labelValue('Destroyed', $affected);
+            $cwsDebugSession->labelValue('Destroyed', $affected);
         }
         
         return $result;
@@ -401,8 +402,8 @@ class CwsSession
      */
     public function _write_close()
     {
-        global $cwsDebug;
-        $cwsDebug->titleH2('Write close');
+        global $cwsDebugSession;
+        $cwsDebugSession->titleH2('Write close');
     
         session_write_close();
         if ($this->dbExt == CWSSESSION_DBEXT_MYSQL) {
@@ -420,9 +421,9 @@ class CwsSession
      */
     public function start()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
-        $cwsDebug->titleH2('Start');
+        $cwsDebugSession->titleH2('Start');
         
         // defines the name of the handler which is used for storing and retrieving data associated with a session
         // default 'files'
@@ -462,7 +463,7 @@ class CwsSession
             CWSSESSION_CFG_COOKIE_HTTPONLY
         );
         
-        $cwsDebug->dump('Cookie params', session_get_cookie_params());
+        $cwsDebugSession->dump('Cookie params', session_get_cookie_params());
         
         // start session
         session_start();
@@ -482,15 +483,15 @@ class CwsSession
      */
     public function regenerate()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         session_name($this->sessionName);
         $oldId = session_id();
         session_regenerate_id(true);
         
-        $cwsDebug->titleH2('Regenerate ID');
-        $cwsDebug->labelValue('Current', $oldId);
-        $cwsDebug->labelValue('New', session_id());
+        $cwsDebugSession->titleH2('Regenerate ID');
+        $cwsDebugSession->labelValue('Current', $oldId);
+        $cwsDebugSession->labelValue('New', session_id());
     }
     
     /**
@@ -498,19 +499,19 @@ class CwsSession
      */
     public function update()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
-        $cwsDebug->titleH2('Update');
+        $cwsDebugSession->titleH2('Update');
         
         $_SESSION[CWSSESSION_VAR_UA] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        $cwsDebug->labelValue('$_SESSION[\'' . CWSSESSION_VAR_UA . '\']', $_SESSION[CWSSESSION_VAR_UA]);
+        $cwsDebugSession->labelValue('$_SESSION[\'' . CWSSESSION_VAR_UA . '\']', $_SESSION[CWSSESSION_VAR_UA]);
         
         $_SESSION[CWSSESSION_VAR_IP] = self::getIpAddress();
-        $cwsDebug->labelValue('$_SESSION[\'' . CWSSESSION_VAR_IP . '\']', $_SESSION[CWSSESSION_VAR_IP]);
+        $cwsDebugSession->labelValue('$_SESSION[\'' . CWSSESSION_VAR_IP . '\']', $_SESSION[CWSSESSION_VAR_IP]);
         
         if ($this->fpEnable) {
             $_SESSION[CWSSESSION_VAR_FINGERPRINT] = $this->retrieveFingerprint();
-            $cwsDebug->labelValue('$_SESSION[\'' . CWSSESSION_VAR_FINGERPRINT . '\']', $_SESSION[CWSSESSION_VAR_FINGERPRINT]);
+            $cwsDebugSession->labelValue('$_SESSION[\'' . CWSSESSION_VAR_FINGERPRINT . '\']', $_SESSION[CWSSESSION_VAR_FINGERPRINT]);
         }
     }
     
@@ -520,21 +521,21 @@ class CwsSession
      */
     public function isActive()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         $id = session_id();
         $expire = $this->dbSelectSingle(CWSSESSION_DBCOL_EXPIRE, $id);
         $current = time();
         
-        $cwsDebug->titleH2('Active');
-        $cwsDebug->labelValue('Current time', $current);
-        $cwsDebug->labelValue('Expire', $expire);
+        $cwsDebugSession->titleH2('Active');
+        $cwsDebugSession->labelValue('Current time', $current);
+        $cwsDebugSession->labelValue('Expire', $expire);
         
         if ($expire > $current) {
-            $cwsDebug->simple('Session <strong>' . $id . '</strong> active!');
+            $cwsDebugSession->simple('Session <strong>' . $id . '</strong> active!');
             return true;
         } else {
-            $cwsDebug->simple('Session <strong>' . $id . '</strong> not active..');
+            $cwsDebugSession->simple('Session <strong>' . $id . '</strong> not active..');
             session_destroy();
             return false;
         }
@@ -567,23 +568,23 @@ class CwsSession
      */
     private function dbConnect()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         $dbExts = array(CWSSESSION_DBEXT_MYSQL, CWSSESSION_DBEXT_MYSQLI, CWSSESSION_DBEXT_PDO);
         if (!in_array($this->dbExt, $dbExts)) {
             $this->error = 'Database extension unknown... Selected : ' . $this->dbExt;
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
         } elseif (empty($this->dbHost)) {
             $this->error = 'Database host empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         } elseif (empty($this->dbName)) {
             $this->error = 'Database name empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         } elseif (empty($this->dbUsername)) {
             $this->error = 'Database username empty...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
@@ -604,11 +605,11 @@ class CwsSession
      */
     private function dbConnectMysql()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         if (!function_exists('mysql_connect')) {
             $this->error = CWSSESSION_DBEXT_MYSQL . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
@@ -623,13 +624,13 @@ class CwsSession
             if (!empty($this->dbCharset)) {
                 if (!$this->dbQuery("SET NAMES '" . $this->dbCharset . "'")) {
                     $this->error = CWSSESSION_DBEXT_MYSQL . ' - Error loading character set ' . $this->dbCharset . ': ' . mysql_error($this->db);
-                    $cwsDebug->error($this->error);
+                    $cwsDebugSession->error($this->error);
                     return false;
                 }
             }
         } else {
             $this->error = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
@@ -642,11 +643,11 @@ class CwsSession
      */
     private function dbConnectMysqli()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         if (!function_exists('mysqli_connect')) {
             $this->error = CWSSESSION_DBEXT_MYSQLI . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
@@ -654,14 +655,14 @@ class CwsSession
         
         if (mysqli_connect_errno()) {
             $this->error = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_connect_errno();
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
         if (!empty($this->dbCharset)) {
             if (!mysqli_set_charset($this->db, $this->dbCharset)) {
                 $this->error = CWSSESSION_DBEXT_MYSQLI . ' - Error loading character set ' . $this->dbCharset . ': ' . mysqli_error($this->db);
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
                 return false;
             }
         }
@@ -675,16 +676,16 @@ class CwsSession
      */
     private function dbConnectPdo()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         if (!defined('PDO::ATTR_DRIVER_NAME')) {
             $this->error = CWSSESSION_DBEXT_PDO . ' - Extension not loaded. Check your PHP configuration...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         } elseif (!$this->isValidPdoDriver()) {
             $this->error = CWSSESSION_DBEXT_PDO . ' - The database you wish to connect to is not supported by your install of PHP. ';
             $this->error .= 'Check your PDO driver (selected: ' . $this->dbPdoDriver . ')...';
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
         
@@ -715,11 +716,11 @@ class CwsSession
             return true;
         } catch (PDOException $e) {
             $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         } catch(Exception $e) {
             $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-            $cwsDebug->error($this->error);
+            $cwsDebugSession->error($this->error);
             return false;
         }
     }
@@ -816,7 +817,7 @@ class CwsSession
      */
     private function dbQuery($query)
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         $result = false;
         $query = trim($query);
@@ -825,13 +826,13 @@ class CwsSession
             $result = mysql_query($query, $this->db);
             if (!$result) {
                 $this->error = CWSSESSION_DBEXT_MYSQL . ' - ' . mysql_error($this->db);
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
             }
         } elseif ($this->dbExt == CWSSESSION_DBEXT_MYSQLI) {
             $result = mysqli_query($this->db, $query);
             if (!$result) {
                 $this->error = CWSSESSION_DBEXT_MYSQLI . ' - ' . mysqli_error($this->db);
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
             }
         } elseif ($this->dbExt == CWSSESSION_DBEXT_PDO) {
             try {
@@ -839,10 +840,10 @@ class CwsSession
                 $result = $this->stmt->execute();
             } catch (PDOException $e) {
                 $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
             } catch(Exception $e) {
                 $this->error = CWSSESSION_DBEXT_PDO . ' - ' . $e->getMessage();
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
             }
         }
         
@@ -864,30 +865,30 @@ class CwsSession
      */
     private function checkFingerprint()
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
-        $cwsDebug->titleH3('Check fingerprint');
+        $cwsDebugSession->titleH3('Check fingerprint');
         
         if ($this->fpEnable) {
             $fingerprint = $this->retrieveFingerprint();
             if (empty($fingerprint)) {
                 $this->error = 'Can\'t generate fingerprint...';
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
                 return false;
             }
             if (!isset($_SESSION[CWSSESSION_VAR_FINGERPRINT])) {
                 $this->error = 'Fingerprint not setted...';
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
                 return false;
             }
             if ($fingerprint != $_SESSION[CWSSESSION_VAR_FINGERPRINT]) {
                 $this->error = 'Fingerprint error... Has <strong>' . $fingerprint . ' but expected <strong>' . $_SESSION[CWSSESSION_VAR_FINGERPRINT] . '</strong>';
-                $cwsDebug->error($this->error);
+                $cwsDebugSession->error($this->error);
                 return false;
             }
-            $cwsDebug->simple('Fingerprint OK : ' . $_SESSION[CWSSESSION_VAR_FINGERPRINT]);
+            $cwsDebugSession->simple('Fingerprint OK : ' . $_SESSION[CWSSESSION_VAR_FINGERPRINT]);
         } else {
-            $cwsDebug->simple('Fingerprint check disabled...');
+            $cwsDebugSession->simple('Fingerprint check disabled...');
         }
         
         return true;
@@ -916,15 +917,15 @@ class CwsSession
      */
     private function retrieveKey($id)
     {
-        global $cwsDebug;
+        global $cwsDebugSession;
         
         $key = $this->dbSelectSingle(CWSSESSION_DBCOL_KEY, $id);
         if (!empty($key)) {
-            $cwsDebug->labelValue('Key retrieved from database', htmlentities($key));
+            $cwsDebugSession->labelValue('Key retrieved from database', htmlentities($key));
             return $key;
         } else {
             $key = CwsCrypto::random(56);
-            $cwsDebug->labelValue('Generated random key', htmlentities($key));
+            $cwsDebugSession->labelValue('Generated random key', htmlentities($key));
             return $key;
         }
     }
@@ -989,7 +990,9 @@ class CwsSession
      */
     public function setDebugVerbose($debugVerbose)
     {
-    	$this->debugVerbose = $debugVerbose;
+        global $cwsDebugSession;
+        $this->debugVerbose = $debugVerbose;
+        $cwsDebugSession->setVerbose($this->debugVerbose);
     }
     
     /**
@@ -1000,14 +1003,16 @@ class CwsSession
      */
     public function setDebugMode($debugMode, $debugFilePath=null, $debugFileClear=false)
     {
-    	$this->debugMode = $debugMode;
-    	if ($debugFilePath != null) {
-    		$this->debugFilePath = $debugFilePath;
-    		$this->debugFileClear = $debugFileClear;
-    	}
+        global $cwsDebugSession;
+        $this->debugMode = $debugMode;
+        if ($debugFilePath != null) {
+            $this->debugFilePath = $debugFilePath;
+            $this->debugFileClear = $debugFileClear;
+        }
+        $cwsDebugSession->setMode($this->debugMode, $this->debugFilePath, $this->debugFileClear);
     }
 
-	/**
+    /**
      * The session life time.
      * @return the $lifetime
      */
@@ -1138,6 +1143,6 @@ class CwsSession
      * @return the $error
      */
     public function getError() {
-    	return $this->error;
+        return $this->error;
     }
 }
