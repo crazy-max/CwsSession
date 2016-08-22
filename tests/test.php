@@ -1,21 +1,14 @@
 <?php
 
-// Download CwsDump at https://github.com/crazy-max/CwsDump
-require_once '../CwsDump/class.cws.dump.php';
-$cwsDump = new CwsDump();
+require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
-// Download CwsDebug at https://github.com/crazy-max/CwsDebug
-require_once '../CwsDebug/class.cws.debug.php';
-$cwsDebug = new CwsDebug($cwsDump);
+$cwsDebug = new Cws\CwsDebug();
 $cwsDebug->setDebugVerbose();
 $cwsDebug->setEchoMode();
 
-// Download CwsCrypto at https://github.com/crazy-max/CwsCrypto
-require_once '../CwsCrypto/class.cws.crypto.php';
-$cwsCrypto = new CwsCrypto($cwsDebug);
+$cwsCrypto = new Cws\CwsCrypto(new Cws\CwsDebug());
 
-require_once 'class.cws.session.php';
-$cwsSession = new CwsSession($cwsDebug, $cwsCrypto);
+$cwsSession = new Cws\CwsSession($cwsDebug, $cwsCrypto);
 
 $cwsSession->setLifetime(1800); // in seconds (1800s = 30min)
 $cwsSession->setCookieDomain('localhost'); // your domain (eg. crazyws.fr)

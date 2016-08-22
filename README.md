@@ -1,14 +1,30 @@
+[![Latest Stable Version](https://img.shields.io/packagist/v/crazy-max/cws-session.svg?style=flat-square)](https://packagist.org/packages/crazy-max/cws-session)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3.0-8892BF.svg?style=flat-square)](https://php.net/)
+[![Build Status](https://img.shields.io/travis/crazy-max/CwsSession/master.svg?style=flat-square)](https://travis-ci.org/crazy-max/CwsSession)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/crazy-max/CwsSession.svg?style=flat-square)](https://scrutinizer-ci.com/g/crazy-max/CwsSession)
+
 # CwsSession
 
-CwsSession is a PHP class to manipulate sessions.<br />
-Data are securely encrypted and sessions are stored in database. 
+PHP class to manipulate sessions. Data are securely encrypted and sessions are stored in database. 
 
-## Requirements and installation
+## Requirements
 
-* PHP version >= 5.1.5
-* A database.
-* Download [CwsDump](https://github.com/crazy-max/CwsDump), [CwsDebug](https://github.com/crazy-max/CwsDebug) and [CwsCrypto](https://github.com/crazy-max/CwsCrypto).
-* Copy the ``class.cws.session.php`` file in a folder on your server.
+* PHP >= 5.3.0
+* CwsCrypto >= 1.6
+* Enable the [php_pdo](http://php.net/manual/en/book.pdo.php) extension and sub PDO extensions.
+* A database (firebird, mysql, oci, pgsql, sqlite, sqlite2 or sqlsrv).
+
+## Installation with Composer
+
+```bash
+composer require crazy-max/cws-session
+```
+
+And download the code:
+
+```bash
+composer install # or update
+```
 
 ## Getting started
 
@@ -32,9 +48,9 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 **data** - the session data.<br />
 **skey** - unique key for data encryption.<br />
 
-See ``example.php`` file sample to help you.
+See `tests/test.php` file sample to help you.
 
-## Disconnect all users
+### Disconnect all users
 
 If you want to disconnect all the users from your PHP application, execute this query :
 
@@ -42,7 +58,7 @@ If you want to disconnect all the users from your PHP application, execute this 
 TRUNCATE TABLE `sessions`;
 ```
 
-## Count visitors and users connected
+### Count visitors and users connected
 
 If you want to count visitors and users connected on your PHP application, execute this query :
 
@@ -51,7 +67,7 @@ SELECT (SELECT COUNT(*) FROM `sessions` WHERE `id_user` > 0 LIMIT 1) AS nb_conne
 (SELECT COUNT(*) FROM `sessions` WHERE `id_user` = 0 LIMIT 1) AS nb_visitors;
 ```
 
-You have to use the ``setParamUserId`` method when the user is logged in.
+You have to use the `setParamUserId` method when the user is logged in.
 
 ## Example
 
@@ -111,7 +127,7 @@ You have to use the ``setParamUserId`` method when the user is logged in.
 
 ## License
 
-LGPL. See ``LICENSE`` for more details.
+LGPL. See `LICENSE` for more details.
 
 ## More infos
 

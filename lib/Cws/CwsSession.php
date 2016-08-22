@@ -2,33 +2,17 @@
 
 /**
  * CwsSession
- * 
- * CwsSession is a PHP class to manipulate sessions.
- * Data are securely encrypted and sessions are stored in database.
  *
- * CwsSession is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option)
- * or (at your option) any later version.
- *
- * CwsSession is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program. If not, see http://www.gnu.org/licenses/.
- * 
- * Related post : http://goo.gl/YyNSJz
- * 
  * @package CwsSession
  * @author Cr@zy
- * @copyright 2013-2015, Cr@zy
+ * @copyright 2013-2016, Cr@zy
  * @license GNU LESSER GENERAL PUBLIC LICENSE
- * @version 1.6
  * @link https://github.com/crazy-max/CwsSession
- *
  */
+
+namespace Cws;
+
+use \PDO;
 
 class CwsSession
 {
@@ -216,19 +200,19 @@ class CwsSession
         if (empty($this->cookieDomain)) {
             $this->error = 'Cookie domain empty...';
             $this->cwsDebug->error($this->error);
-            return;
+            return false;
         }
         
         if (empty($this->dbTableName)) {
             $this->error = 'Database table name empty...';
             $this->cwsDebug->error($this->error);
-            return;
+            return false;
         }
         
         if (empty($this->dbExt)) {
             $this->error = 'Database extension empty...';
             $this->cwsDebug->error($this->error);
-            return;
+            return false;
         }
         
         if ($this->dbConnect()) {
@@ -249,7 +233,7 @@ class CwsSession
             $this->_gc();
         }
         
-        return;
+        return true;
     }
     
     /**
@@ -664,7 +648,7 @@ class CwsSession
      * Select a single value from a specified column filtered by session id.
      * @param string $column - The column to select
      * @param string $idFilter - The session id to be filtered.
-     * @return string|unknown|NULL
+     * @return string|NULL
      */
     private function dbSelectSingle($column, $idFilter)
     {
@@ -853,7 +837,7 @@ class CwsSession
             $this->cwsDebug->labelValue('Key retrieved from database', htmlentities($key));
             return $key;
         } else {
-            $key = CwsCrypto::random(56);
+            $key = $this->cwsCrypto->random(56);
             $this->cwsDebug->labelValue('Generated random key', htmlentities($key));
             return $key;
         }
@@ -928,7 +912,7 @@ class CwsSession
 
     /**
      * The session life time.
-     * @return the $lifetime
+     * @return int $lifetime
      */
     public function getLifetime()
     {
@@ -946,7 +930,7 @@ class CwsSession
     
     /**
      * The domain of the session cookie.
-     * @return the $cookieDomain
+     * @return string $cookieDomain
      */
     public function getCookieDomain()
     {
@@ -964,7 +948,7 @@ class CwsSession
     
     /**
      * The session name.
-     * @return the $sessionName
+     * @return string $sessionName
      */
     public function getSessionName()
     {
@@ -983,7 +967,7 @@ class CwsSession
     
     /**
      * The fingerprint status.
-     * @return the $fpEnable
+     * @return boolean $fpEnable
      */
     public function isFpEnable()
     {
@@ -1002,7 +986,7 @@ class CwsSession
     
     /**
      * The fingerprint mode.
-     * @return the $fpMode
+     * @return string $fpMode
      */
     public function getFpMode()
     {
@@ -1037,7 +1021,7 @@ class CwsSession
     
     /**
      * The database PHP extension used to store sessions.
-     * @return the $dbExt
+     * @return string $dbExt
      */
     public function getDbExt()
     {
@@ -1080,7 +1064,7 @@ class CwsSession
     
     /**
      * The PDO driver to use. (if db extension is Pdo)
-     * @return the $dbPdoDriver
+     * @return string $dbPdoDriver
      */
     public function getDbPdoDriver()
     {
@@ -1155,7 +1139,7 @@ class CwsSession
     
     /**
      * The database host name or IP address.
-     * @return the $dbHost
+     * @return string $dbHost
      */
     public function getDbHost()
     {
@@ -1173,7 +1157,7 @@ class CwsSession
     
     /**
      * The database port.
-     * @return the $dbPort
+     * @return int|NULL $dbPort
      */
     public function getDbPort()
     {
@@ -1211,7 +1195,7 @@ class CwsSession
     
     /**
      * The database name.
-     * @return the $dbName
+     * @return string $dbName
      */
     public function getDbName()
     {
@@ -1229,7 +1213,7 @@ class CwsSession
     
     /**
      * The database charset.
-     * @return the $dbCharset
+     * @return string $dbCharset
      */
     public function getDbCharset()
     {
@@ -1247,7 +1231,7 @@ class CwsSession
     
     /**
      * The database table name to store sessions.
-     * @return the $dbTableName
+     * @return string $dbTableName
      */
     public function getDbTableName()
     {
@@ -1325,7 +1309,7 @@ class CwsSession
     
     /**
      * The last error.
-     * @return the $error
+     * @return string $error
      */
     public function getError() {
         return $this->error;
