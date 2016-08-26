@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e8a284da6194968aa366e464d685ad7",
-    "content-hash": "50fdfa91dba6add4b363bedb70b7bc4a",
+    "hash": "a00ca972d62e04f21fcb4212246e4fc4",
+    "content-hash": "218d85163d5d80398966dcdf548911a3",
     "packages": [
         {
             "name": "crazy-max/cws-crypto",
