@@ -2,6 +2,7 @@
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3.0-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status](https://img.shields.io/travis/crazy-max/CwsSession/master.svg?style=flat-square)](https://travis-ci.org/crazy-max/CwsSession)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/crazy-max/CwsSession.svg?style=flat-square)](https://scrutinizer-ci.com/g/crazy-max/CwsSession)
+[![Gemnasium](https://img.shields.io/gemnasium/crazy-max/CwsSession.svg?style=flat-square)](https://gemnasium.com/github.com/crazy-max/CwsSession)
 
 # CwsSession
 
