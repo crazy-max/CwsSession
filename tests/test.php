@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+require_once __DIR__.'/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 $cwsDebug = new Cws\CwsDebug();
 $cwsDebug->setDebugVerbose();
@@ -38,7 +38,7 @@ $cwsSession->setDbTableName('sessions'); // the database table name to store ses
 // Start!
 $cwsSession->process();
 
-/**
+/*
  * In your application when the user is logged in, set the id in the session var
  * Can be useful if you want to know who is connected.
  * See 'Count visitors and users connected' section in the README.md.
