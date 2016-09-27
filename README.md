@@ -1,7 +1,8 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/crazy-max/cws-session.svg?style=flat-square)](https://packagist.org/packages/crazy-max/cws-session)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3.0-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status](https://img.shields.io/travis/crazy-max/CwsSession/master.svg?style=flat-square)](https://travis-ci.org/crazy-max/CwsSession)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/crazy-max/CwsSession.svg?style=flat-square)](https://scrutinizer-ci.com/g/crazy-max/CwsSession)
+[![Code Quality](https://img.shields.io/codacy/grade/190a784656bb4bd7bbc6042cb993c890.svg?style=flat-square)](https://www.codacy.com/app/crazy-max/CwsSession)
+[![StyleCI](https://styleci.io/repos/12613494/shield?style=flat-square)](https://styleci.io/repos/12613494)
 [![Gemnasium](https://img.shields.io/gemnasium/crazy-max/CwsSession.svg?style=flat-square)](https://gemnasium.com/github.com/crazy-max/CwsSession)
 
 # CwsSession
