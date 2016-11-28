@@ -241,15 +241,15 @@ class CwsSession
             session_name($this->sessionName);
 
             session_set_save_handler(
-                [&$this, '_open'],
-                [&$this, '_close'],
-                [&$this, '_read'],
-                [&$this, '_write'],
-                [&$this, '_destroy'],
-                [&$this, '_gc']
+                array(&$this, '_open'),
+                array(&$this, '_close'),
+                array(&$this, '_read'),
+                array(&$this, '_write'),
+                array(&$this, '_destroy'),
+                array(&$this, '_gc')
             );
 
-            register_shutdown_function([$this, '_write_close']);
+            register_shutdown_function(array($this, '_write_close'));
 
             $this->start();
             $this->_gc();
@@ -347,7 +347,7 @@ class CwsSession
         $this->cwsDebug->dump('Data', $data);
         $this->cwsDebug->dump('Encrypted data', $encData);
 
-        return $this->dbReplaceInto([$id, $idUser, $expire, $encData, $key]);
+        return $this->dbReplaceInto(array($id, $idUser, $expire, $encData, $key));
     }
 
     /**
@@ -460,7 +460,7 @@ class CwsSession
 
         if (!$this->checkFingerprint()) {
             $this->regenerate();
-            $_SESSION = [];
+            $_SESSION = array();
         }
 
         $this->update();
@@ -925,11 +925,11 @@ class CwsSession
      */
     private static function getDbExts()
     {
-        return [
+        return array(
             self::DB_EXT_MYSQL,
             self::DB_EXT_MYSQLI,
             self::DB_EXT_PDO,
-        ];
+        );
     }
 
     /**
@@ -970,7 +970,7 @@ class CwsSession
      * @param number $sindex - Index of the current value to decode.
      * @param array  $result - Decoded session data.
      */
-    private static function decode($data, $sindex = 0, &$result = [])
+    private static function decode($data, $sindex = 0, &$result = array())
     {
         $eindex = strpos($data, self::DELIMITER, $sindex);
         if ($eindex !== false) {
