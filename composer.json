@@ -16,7 +16,7 @@
     "php": ">=5.3.0",
     "ext-pdo": "*",
     "crazy-max/cws-debug": ">=1.10",
-    "crazy-max/cws-crypto": ">=1.6"
+    "crazy-max/cws-crypto": ">=1.7"
   },
   "autoload": {
     "psr-0": {
