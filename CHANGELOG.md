@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10 (2018/01/04)
+
+* Switch to MIT LICENSE
+
 ## 1.9 (2016/11/28)
 
 * Add StyleCI config
