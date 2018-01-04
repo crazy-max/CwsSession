@@ -4,19 +4,13 @@
 [![Code Quality](https://img.shields.io/codacy/grade/190a784656bb4bd7bbc6042cb993c890.svg?style=flat-square)](https://www.codacy.com/app/crazy-max/CwsSession)
 [![StyleCI](https://styleci.io/repos/12613494/shield?style=flat-square)](https://styleci.io/repos/12613494)
 [![Gemnasium](https://img.shields.io/gemnasium/crazy-max/CwsSession.svg?style=flat-square)](https://gemnasium.com/github.com/crazy-max/CwsSession)
+[![Donate Paypal](https://img.shields.io/badge/donate-paypal-7057ff.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ST39UEPCYQUAN)
 
 # CwsSession
 
 PHP class to manipulate sessions. Data are securely encrypted and sessions are stored in database. 
 
-## Requirements
-
-* PHP >= 5.3.0
-* CwsCrypto >= 1.6
-* Enable the [php_pdo](http://php.net/manual/en/book.pdo.php) extension and sub PDO extensions.
-* A database (firebird, mysql, oci, pgsql, sqlite, sqlite2 or sqlsrv).
-
-## Installation with Composer
+## Installation
 
 ```bash
 composer require crazy-max/cws-session
@@ -73,7 +67,7 @@ You have to use the `setParamUserId` method when the user is logged in.
 
 ## Example
 
-![](https://raw.github.com/crazy-max/CwsSession/master/example.png)
+![](.res/example.png)
 
 ## Methods
 
@@ -127,10 +121,14 @@ You have to use the `setParamUserId` method when the user is logged in.
 **setParam** - Set a SESSION key/value. Use this method instead $_SESSION var.<br />
 **getError** - The last error.
 
+## How can i help ?
+
+We welcome all kinds of contributions :raised_hands:!<br />
+The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
+Any funds donated will be used to help further development on this project! :gift_heart:
+
+[![Donate Paypal](.res/paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ST39UEPCYQUAN)
+
 ## License
 
-LGPL. See `LICENSE` for more details.
-
-## More infos
-
-http://www.crazyws.fr/dev/classes-php/cwssession-proteger-les-sessions-php-et-les-stocker-en-base-de-donnees-7VB7X.html
+MIT. See `LICENSE` for more details.
