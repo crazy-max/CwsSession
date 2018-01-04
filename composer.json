@@ -4,19 +4,19 @@
   "description": "PHP class to manipulate sessions. Data are securely encrypted and sessions are stored in database.",
   "keywords": ["session", "database", "encrypt"],
   "homepage": "https://github.com/crazy-max/CwsSession",
-  "license": "LGPL",
+  "license": "MIT",
   "authors": [
-     {
-        "name": "crazy-max",
-        "homepage": "http://www.crazyws.fr/"
-     }
+    {
+      "name": "CrazyMax",
+      "homepage": "https://github.com/crazy-max"
+    }
   ],
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.3.0",
     "ext-pdo": "*",
-    "crazy-max/cws-debug": ">=1.10",
-    "crazy-max/cws-crypto": ">=1.7"
+    "crazy-max/cws-debug": "~1.11",
+    "crazy-max/cws-crypto": "~1.8"
   },
   "autoload": {
     "psr-0": {

@@ -4,25 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a00ca972d62e04f21fcb4212246e4fc4",
-    "content-hash": "218d85163d5d80398966dcdf548911a3",
+    "content-hash": "3fce0867963081a63b3073367b7f20cd",
     "packages": [
         {
             "name": "crazy-max/cws-crypto",
-            "version": "dev-master",
+            "version": "1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crazy-max/CwsCrypto.git",
-                "reference": "af2c7e5f72e0490e7d455c28fb7f915237e02aca"
+                "reference": "e3a7b7767a702c363a4f37e5749fd5f2f33140b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crazy-max/CwsCrypto/zipball/af2c7e5f72e0490e7d455c28fb7f915237e02aca",
-                "reference": "af2c7e5f72e0490e7d455c28fb7f915237e02aca",
+                "url": "https://api.github.com/repos/crazy-max/CwsCrypto/zipball/e3a7b7767a702c363a4f37e5749fd5f2f33140b1",
+                "reference": "e3a7b7767a702c363a4f37e5749fd5f2f33140b1",
                 "shasum": ""
             },
             "require": {
-                "crazy-max/cws-debug": ">=1.9",
+                "crazy-max/cws-debug": "~1.11",
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -33,12 +32,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "crazy-max",
-                    "homepage": "http://www.crazyws.fr/"
+                    "name": "CrazyMax",
+                    "homepage": "https://github.com/crazy-max"
                 }
             ],
             "description": "PHP class for password hashing with two different encryption methods.",
@@ -50,24 +49,24 @@
                 "password",
                 "pbkdf2"
             ],
-            "time": "2016-08-22 20:17:04"
+            "time": "2018-01-04T15:12:52+00:00"
         },
         {
             "name": "crazy-max/cws-debug",
-            "version": "dev-master",
+            "version": "1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crazy-max/CwsDebug.git",
-                "reference": "12833a3ad251e310f7e885edd53519a625e44c03"
+                "reference": "cfccbb4f57a4e76e0f5609f3d1c91114600486d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crazy-max/CwsDebug/zipball/12833a3ad251e310f7e885edd53519a625e44c03",
-                "reference": "12833a3ad251e310f7e885edd53519a625e44c03",
+                "url": "https://api.github.com/repos/crazy-max/CwsDebug/zipball/cfccbb4f57a4e76e0f5609f3d1c91114600486d3",
+                "reference": "cfccbb4f57a4e76e0f5609f3d1c91114600486d3",
                 "shasum": ""
             },
             "require": {
-                "crazy-max/cws-dump": ">=1.7",
+                "crazy-max/cws-dump": "~1.9",
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -78,12 +77,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "crazy-max",
-                    "homepage": "http://www.crazyws.fr/"
+                    "name": "CrazyMax",
+                    "homepage": "https://github.com/crazy-max"
                 }
             ],
             "description": "PHP class to output additional messages for debug.",
@@ -93,20 +92,20 @@
                 "log",
                 "print"
             ],
-            "time": "2016-08-22 20:00:26"
+            "time": "2018-01-04T14:50:39+00:00"
         },
         {
             "name": "crazy-max/cws-dump",
-            "version": "dev-master",
+            "version": "1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crazy-max/CwsDump.git",
-                "reference": "e8d259eaba9547d6b00ae9d3cf0e2ae3d5289229"
+                "reference": "41e34c6aeafc9430cf3d3e40f014124b9c764a91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crazy-max/CwsDump/zipball/e8d259eaba9547d6b00ae9d3cf0e2ae3d5289229",
-                "reference": "e8d259eaba9547d6b00ae9d3cf0e2ae3d5289229",
+                "url": "https://api.github.com/repos/crazy-max/CwsDump/zipball/41e34c6aeafc9430cf3d3e40f014124b9c764a91",
+                "reference": "41e34c6aeafc9430cf3d3e40f014124b9c764a91",
                 "shasum": ""
             },
             "require": {
@@ -123,12 +122,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "crazy-max",
-                    "homepage": "http://www.crazyws.fr/"
+                    "name": "CrazyMax",
+                    "homepage": "https://github.com/crazy-max"
                 }
             ],
             "description": "PHP class to replace var_dump(), print_r() based on the Xdebug style.",
@@ -139,7 +138,7 @@
                 "print_r",
                 "var_dump"
             ],
-            "time": "2016-08-22 19:58:23"
+            "time": "2018-01-04T14:42:56+00:00"
         }
     ],
     "packages-dev": [],
