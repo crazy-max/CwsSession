@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/crazy-max/cws-session.svg?style=flat-square)](https://packagist.org/packages/crazy-max/cws-session)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3.0-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](https://img.shields.io/travis/crazy-max/CwsSession/master.svg?style=flat-square)](https://travis-ci.org/crazy-max/CwsSession)
+[![Build Status](https://img.shields.io/travis/com/crazy-max/CwsSession/master.svg?style=flat-square)](https://travis-ci.com/crazy-max/CwsSession)
 [![Code Quality](https://img.shields.io/codacy/grade/190a784656bb4bd7bbc6042cb993c890.svg?style=flat-square)](https://www.codacy.com/app/crazy-max/CwsSession)
 [![Donate Paypal](https://img.shields.io/badge/donate-paypal-7057ff.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ST39UEPCYQUAN)
 
@@ -119,9 +119,9 @@ You have to use the `setParamUserId` method when the user is logged in.
 **setParam** - Set a SESSION key/value. Use this method instead $_SESSION var.<br />
 **getError** - The last error.
 
-## How can i help ?
+## How can I help ?
 
-All kinds of contributions are welcomed :raised_hands:!<br />
+All kinds of contributions are welcome :raised_hands:!<br />
 The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
 But we're not gonna lie to each other, I'd rather you buy me a beer or two :beers:!
 
