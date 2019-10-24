@@ -1,4 +1,5 @@
 {
+  "abandoned": true,
   "name": "crazy-max/cws-session",
   "type":  "library",
   "description": "PHP class to manipulate sessions. Data are securely encrypted and sessions are stored in database.",
